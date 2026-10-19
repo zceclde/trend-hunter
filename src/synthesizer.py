@@ -28,12 +28,21 @@ class TrendSynthesizer:
         plats = list(metrics.get("platform_counts", {}).keys())
         plat_str = ", ".join(plats[:3]) if plats else "multi-platform"
 
-        # Heuristic topic detection
-        if any(w in combined for w in ["管家", "欢迎来到", "私聊管理"]):
+        top_kw = cluster.get("top_kw", [])
+        kw_label = " / ".join(top_kw[:2]) if top_kw else (samples[0][:12] if samples else "社区热点")
+
+        # Heuristic topic detection (game-agnostic)
+        if metrics.get("is_astroturf"):
+            title = f"「{kw_label}」疑似水军新号集中刷屏营销"
+            title_en = f"Suspected coordinated astroturfing campaign around '{kw_label}'"
+            category = "Bot & Astroturf Activity"
+            why = metrics.get("reason", "Coordinated surge from newly registered accounts within tight hourly windows.")
+            status = "not real"
+        elif any(w in combined for w in ["管家", "欢迎来到", "群公告"]):
             title = "官方社群管家自动欢迎入群"
             title_en = "Community bot automated welcome messages"
             category = "Bot & Commercial Activity"
-            why = "Automated greeting bot posts repeating across QQ groups. Pure script activity with single-user origin."
+            why = "Automated greeting bot posts repeating across chat groups. Pure script activity with single-user origin."
             status = "not real"
         elif any(w in combined for w in ["代练", "代肝", "出号", "破解版"]):
             title = "代练代肝与黑产账号广告刷屏"
@@ -46,22 +55,22 @@ class TrendSynthesizer:
             title_en = "Players suspect stealth nerfing of gacha drop rates"
             category = "Gacha & Economy"
             why = f"Discussions started around {first_seen} with dataminers and players compiling pull logs. Strong cross-platform spread across {plat_str}."
-        elif any(w in combined for w in ["铁锅", "艾琳"]):
-            title = "角色艾琳社区新梗「铁锅」流传"
-            title_en = "Eileen community nickname 'Iron Pot' gains traction"
+        elif any(w in combined for w in ["外号", "什么梗", "昵称", "铁锅"]):
+            title = f"社区热门新梗与角色外号「{kw_label}」流传"
+            title_en = f"Community meme and nickname '{kw_label}' gains traction"
             category = "Community Culture & Lore"
-            why = f"Organic community slang first surfacing on {first_seen} explaining Eileen's 'Iron Pot' moniker to newcomers across {plat_str}."
+            why = f"Organic community slang first surfacing on {first_seen} spreading across {plat_str} as veterans explain the inside joke to newcomers."
         elif any(w in combined for w in ["停服", "维护", "炸服", "登不上", "进不去"]):
             title = "例行更新与停服维护引发短暂进服排队"
             title_en = "Routine patch maintenance login queue and downtime"
             category = "Game Operations & Stability"
-            why = f"Acute spike coinciding with scheduled server downtime. Dropped sharply post-maintenance, representing a transient incident."
+            why = "Acute spike coinciding with scheduled server downtime. Dropped sharply post-maintenance, representing a transient incident."
             status = "one-off"
-        elif any(w in combined for w in ["赛琳娜", "新角色", "2.0"]):
-            title = "2.0版本新角色赛琳娜上线引热议"
-            title_en = "Version 2.0 new character Selena launch discussion"
+        elif any(w in combined for w in ["新角色", "强度", "技能", "配队", "抽取建议"]):
+            title = f"新版本角色与阵容搭配「{kw_label}」强度热议"
+            title_en = f"New character meta and team composition discussion ({kw_label})"
             category = "Character Meta & Release"
-            why = f"Surfaced alongside the v2.0 banner launch. Volume building steadily across {plat_str} as players test team compositions."
+            why = f"Surfaced on {first_seen} with volume building steadily across {plat_str} as players test builds and team synergies."
         elif any(w in combined for w in ["匹配", "段位", "排位", "车队", "单排"]):
             title = "PVP天梯匹配机制与实力不均抱怨"
             title_en = "PVP matchmaking mechanism and rank disparity complaints"
@@ -73,12 +82,12 @@ class TrendSynthesizer:
             category = "Security & Fairness"
             why = f"Players reporting encounter rates with aimbot users, seeking official anti-cheat enforcement across {plat_str}."
         else:
-            # Generic fallback from top sample
-            first_clean = samples[0][:20] if samples else "游戏玩法热点"
-            title = f"{first_clean}相关讨论"
-            title_en = f"Discussion around player chatter regarding {first_clean}"
+            # Generic fallback from top keywords / sample
+            first_clean = samples[0][:18] if samples else kw_label
+            title = f"社区关于「{kw_label}」的集中讨论"
+            title_en = f"Community discussion around '{first_clean}'"
             category = "General Gameplay & Mechanics"
-            why = f"Identified organic discussion thread active across {plat_str} with {metrics.get('total_msgs', 10)} messages."
+            why = f"Identified organic discussion thread first seen on {first_seen} across {plat_str} ({metrics.get('total_msgs', 10)} messages). {metrics.get('reason', '')}"
 
         return {
             "title": title,
@@ -114,12 +123,15 @@ class TrendSynthesizer:
                         "index": idx,
                         "status": c.get("status"),
                         "first_seen": c.get("first_seen"),
+                        "total_cluster_messages": metrics.get("total_msgs", c.get("count", 0)),
                         "platforms": list(metrics.get("platform_counts", {}).keys()),
                         "platform_entropy": round(metrics.get("platform_entropy", 0), 2),
                         "cascade_score": round(metrics.get("cascade_score", 0), 2),
                         "recent_decay_weighted_volume": round(metrics.get("recent_weighted", 0), 1),
                         "older_decay_weighted_volume": round(metrics.get("older_weighted", 0), 1),
                         "unique_user_ratio": round(metrics.get("unique_user_ratio", 0), 2),
+                        "new_account_share": round(metrics.get("new_account_share", 0), 2),
+                        "new_account_hourly_burst": metrics.get("new_account_burst", 0),
                         "velocity_reason": metrics.get("reason", ""),
                         "sample_messages": c.get("sample_texts", [])[:5],
                         "voice_ids": c.get("voice_ids", [])[:5]
@@ -135,10 +147,10 @@ class TrendSynthesizer:
 
 Analyze the following {len(cluster_summaries)} distinct community trend clusters.
 For each cluster, generate:
-- title: Natural, studio-grade Chinese title (e.g. "玩家质疑抽卡概率暗改", "角色艾琳社区新梗「铁锅」流传").
-- title_en: Concise English translation of title.
-- category: A dynamically invented category reflecting how players think about the game (e.g. "Gacha & Economy", "Character Balance & Meta", "Community Culture & Lore", "Game Operations & Stability", "Bot & Commercial Spam", "PVP & Fairness").
-- why: A concise 1-2 sentence justification in English. IMPORTANT: Ground your reasoning in specific phrases or words from the sample_messages provided. Reference concrete player language (e.g. quote a slang term, a nickname, or a specific complaint phrase) rather than making generic statements. Also reference the platform spread, cascade score, and decay-weighted volume metrics when relevant.
+- title: Natural, studio-grade Chinese title summarizing the specific phenomenon (e.g. "玩家质疑抽卡概率暗改", "角色艾琳社区新梗「铁锅」流传", "「霜月」新皮肤疑似水军刷屏推广").
+- title_en: Concise, accurate English translation of title. Use consistent romanizations for proper nouns if present (艾琳=Eileen, 赛琳娜=Selena, 白夜=Baiye, 洛克=Locke, 米娅=Mia, 卡戎=Charon, 伊芙=Eve, 霜月=Frost Moon, 星环守望=Star Ring Watch).
+- category: A dynamically invented category reflecting how players/developers think about the game (e.g. "Gacha & Economy", "Character Balance & Meta", "Community Culture & Lore", "Game Operations & Stability", "Bot & Astroturf Activity", "PVP & Fairness").
+- why: A concise 2-sentence analytical justification in English. IMPORTANT: Ground your reasoning in specific phrases, slang, or hashtags quoted from sample_messages, AND cite concrete telemetry from the cluster metrics (e.g., total messages, platform spread/cascade, decay-weighted velocity, or for 'not real' trends, whether it is a single-account bot, RMT spam, or a coordinated astroturfing surge with high new_account_share / new_account_hourly_burst).
 
 Clusters to analyze:
 {json.dumps(cluster_summaries, ensure_ascii=False, indent=2)}

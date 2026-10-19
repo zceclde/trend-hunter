@@ -66,21 +66,23 @@ class TextPreprocessor:
             
             # Check for known automated bot signatures
             is_bot = False
-            if "管家" in user_name or "Q群管家" in raw_full or "欢迎来到星环守望玩家群" in raw_full:
+            if "管家" in user_name or "Q群管家" in raw_full or ("欢迎来到" in raw_full and "群公告" in raw_full):
                 is_bot = True
                 
-            # Reply Context Stitching
+            # Reply Context Stitching: only stitch when the child reply is short/context-dependent
+            # and the parent is a peer post rather than a generic '详情见图' official bulletin
             stitched_text = cleaned_content
             if parent_id and parent_id in id_to_msg:
                 parent_msg = id_to_msg[parent_id]
                 parent_raw = (parent_msg.get("title") or "") + " " + (parent_msg.get("content") or "")
                 parent_cleaned = self.clean_text(parent_raw)
+                is_official_bulletin = "详情见图" in parent_cleaned
                 
-                # If child reply is short (e.g. "确实", "+1", "笑死", "我也是"), fuse parent text
-                if len(cleaned_content) <= 15 or any(w in cleaned_content for w in ["确实", "+1", "同意", "笑死", "真实", "我也"]):
-                    stitched_text = f"【回复: {parent_cleaned[:80]}】 {cleaned_content}"
-                else:
-                    stitched_text = f"{cleaned_content} (上下文: {parent_cleaned[:50]})"
+                if not is_official_bulletin and (
+                    len(cleaned_content) <= 10
+                    or any(w in cleaned_content for w in ["确实", "+1", "同意", "真实", "我也"])
+                ):
+                    stitched_text = f"{cleaned_content} {parent_cleaned[:60]}"
             
             processed.append({
                 "id": msg_id,
