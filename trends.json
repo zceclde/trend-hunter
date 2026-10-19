@@ -1,0 +1,125 @@
+{
+  "as_of": "2026-07-24",
+  "trends": [
+    {
+      "title": "角色艾琳社区新梗「铁锅」流传",
+      "title_en": "New Community Meme 'Iron Pot' About Character Eileen",
+      "category": "Community Culture & Lore",
+      "status": "growing",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f9352-7ae0-7c15-97e7-784c91a66cb2",
+        "019f55cb-cb18-7290-aad0-3a2ee67abbfd",
+        "019f5f1e-f460-7a05-877f-11caa2833088",
+        "019f65ad-9ac0-7de3-b472-d46eefd15e83",
+        "019f79c2-4a60-7e4b-ad24-76880d5770af"
+      ],
+      "why": "The phrase '艾琳=铁锅' has become a popular meme among players, indicating a strong organic interest in character discussions across multiple platforms like Discord and QQ."
+    },
+    {
+      "title": "玩家对外挂问题的愤怒",
+      "title_en": "Players' Anger Over Cheating Issues",
+      "category": "PVP & Fairness",
+      "status": "growing",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f4ba3-d728-70a0-8282-019f6a3ee3ae",
+        "019f4ba2-d758-7293-bae6-0246bd2030ad",
+        "019f5455-c900-78fb-84c9-b7d99898d401",
+        "019f59e6-25b8-7150-893d-c8329d945fbe",
+        "019f8810-e748-7d5d-9ace-732833e546bd"
+      ],
+      "why": "Players express frustration with rampant cheating, stating '外挂太多了，玩不下去' which highlights the urgency of addressing fairness in competitive play."
+    },
+    {
+      "title": "抽卡记录分享引发的讨论",
+      "title_en": "Discussion Triggered by Gacha Pull Records",
+      "category": "Gacha & Economy",
+      "status": "growing",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f895d-1581-78c1-8757-c18f8612e5ab",
+        "019f8943-e908-7483-b72e-7556e123e80c",
+        "019f4fc0-52c0-7211-879b-95e56a57f6e5",
+        "019f6af3-61b8-773c-8e48-636b6d4ec31a",
+        "019f5aeb-b426-7e1e-9ac6-ddc25830f73b"
+      ],
+      "why": "Players are sharing their gacha pull experiences, with comments like '抽卡记录分享：300抽三金，还算可以' indicating a lively conversation about the game's economy."
+    },
+    {
+      "title": "关于抽卡概率的质疑",
+      "title_en": "Skepticism About Gacha Rates",
+      "category": "Gacha & Economy",
+      "status": "not real",
+      "first_seen": "2026-07-18",
+      "voice_ids": [
+        "019f8fd8-1960-7b1b-b4f6-fab33f53522d",
+        "019f8a3e-f690-7d7d-ab59-7997a0783dbd",
+        "019f82b2-25c8-7da3-80b3-ad9fcef62e47",
+        "019f758f-08c0-7d5d-a8f5-c23086037b04",
+        "019f8991-b700-714c-b22c-53d9905cfd7e"
+      ],
+      "why": "The cluster shows signs of commercial spam, with repetitive messages questioning the gacha rates, such as '出金率好像比公告低一截', indicating a lack of trust among players."
+    },
+    {
+      "title": "大保底机制的讨论逐渐减退",
+      "title_en": "Declining Discussion on Guaranteed Pull Mechanism",
+      "category": "Gacha & Economy",
+      "status": "fading",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f5acf-1a70-71e3-86f8-c7cac5b6b209",
+        "019f92dc-e168-7797-b416-82824b441ac7",
+        "019f5faf-8430-7fd4-9999-4c90cdcedaad",
+        "019f8894-4fe8-7a35-983b-c4a07e5d88b4",
+        "019f78f1-0428-79bf-8ba9-ca7fdf991e0f"
+      ],
+      "why": "The conversation around the guaranteed pull rates has faded, with messages like '大保底到底是多少抽啊' showing a decline in engagement as players seek clarity."
+    },
+    {
+      "title": "匹配机制问题引发的玩家不满",
+      "title_en": "Player Discontent Over Matchmaking Issues",
+      "category": "PVP & Fairness",
+      "status": "fading",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f5025-ae83-792b-82e4-908d742e45f2",
+        "019f5b57-a778-716d-a3c5-d180a6c8b5c6",
+        "019f56f4-0708-7adc-bc95-2d4bf6c3ad15",
+        "019f4bb1-5260-7feb-a5d9-e0367c740fa4",
+        "019f4844-2739-75a3-8570-ac78794badca"
+      ],
+      "why": "Comments like '匹配机制烂透了' reflect players' dissatisfaction with the matchmaking system, indicating a need for improvement in competitive play."
+    },
+    {
+      "title": "Steam版性能问题引发关注",
+      "title_en": "Performance Issues on Steam Version Draw Attention",
+      "category": "Game Operations & Stability",
+      "status": "new",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f8b89-83a8-7a27-a2b0-1f67c2dd303c",
+        "019f90db-cdc0-713f-93d2-075bd46ace4e",
+        "019f8f12-f0b8-742e-bb60-8422a45039f1",
+        "019f8a5c-dae8-7617-8b24-1ab4fcec6361",
+        "019f8f34-20d0-7065-8b7f-5f3f9272ca8e"
+      ],
+      "why": "Players are raising concerns about performance, with messages like 'Steam版120帧选项是摆设吗', indicating a growing interest in technical stability."
+    },
+    {
+      "title": "美术风格的提升引发讨论",
+      "title_en": "Discussion on Improved Art Style",
+      "category": "Community Culture & Lore",
+      "status": "one-off",
+      "first_seen": "2026-06-01",
+      "voice_ids": [
+        "019f7e32-a4a0-7a15-b3f0-47fe60cc5d65",
+        "019f7828-fd20-7552-8655-f1b6357eaa2e",
+        "019f8fae-3aa0-71f0-9bed-4f5407d7444e",
+        "019f7f2c-42f8-7c69-b918-d81c721ab766",
+        "019f7b88-29c8-7f87-9166-5cfd86e2aa28"
+      ],
+      "why": "Players are praising the art style, with comments like '美术是真的顶', indicating a positive reception to recent visual updates following the new character release."
+    }
+  ]
+}
